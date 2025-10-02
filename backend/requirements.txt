@@ -13,3 +13,5 @@ pydantic-settings
 httpx
 
 python-multipart
+
+google-genai

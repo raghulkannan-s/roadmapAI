@@ -1,22 +1,27 @@
-from pydantic import BaseModel
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from .. import models, schemas, database
 
-router = APIRouter()
+router = APIRouter(prefix="/users", tags=["users"])
 
-class UserCreate(BaseModel):
-    name: str
-    email: str
-    image: str | None = None
-    provider_id: str
+@router.get("/", response_model=list[schemas.UserResponse])
+def get_users(db: Session = Depends(database.get_db)):
+    users = db.query(models.User).all()
+    if not users:
+        return []
+    return users
 
-@router.get("/")
-def get_users():
-    return {"msg": "List of users"}
+@router.post("/", response_model=schemas.UserResponse)
+def create_user(user: schemas.User, db: Session = Depends(database.get_db)):
 
-@router.post("/")
-async def create_user(user: UserCreate):
-    print("Received user:", user.dict())
-    return {
-        "status": "success",
-        "user": user
-    }
+    user_exists = db.query(models.User).filter(models.User.email == user.email).first()
+
+    if user_exists:
+        print(f"User {user.name} already exists:")
+        return user_exists
+
+    db_user = models.User(**user.dict())
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
