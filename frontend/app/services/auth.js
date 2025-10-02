@@ -13,7 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account.provider === "google") {
         try {
           const userData = {
@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!response.ok) {
             console.error("Failed to save user to backend:", await response.text());
           }
-
+          console.log("User successfully saved to backend");
           return true;
         } catch (error) {
           console.error("Error in signIn callback:", error);
