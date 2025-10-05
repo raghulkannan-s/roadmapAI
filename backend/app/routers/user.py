@@ -2,16 +2,16 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from .. import models, schemas, database
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/user", tags=["user"])
 
-@router.get("/", response_model=list[schemas.UserResponse])
+@router.get("/get/all", response_model=list[schemas.UserResponse])
 def get_users(db: Session = Depends(database.get_db)):
     users = db.query(models.User).all()
     if not users:
         return []
     return users
 
-@router.post("/", response_model=schemas.UserResponse)
+@router.post("/signup", response_model=schemas.UserResponse)
 def create_user(user: schemas.User, db: Session = Depends(database.get_db)):
 
     user_exists = db.query(models.User).filter(models.User.email == user.email).first()
