@@ -18,7 +18,10 @@ class User(Base):
 
 class Roadmap(Base):
     __tablename__ = "roadmaps"
+
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, index=True)
-    roadmap_json = Column(JSONB, nullable=True)
+    roadmap_json = Column(JSONB, nullable=False)
     user_provider_id = Column(String, ForeignKey("users.provider_id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    user = relationship("User", back_populates="roadmaps")

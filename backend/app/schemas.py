@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional, Dict, Any
+from uuid import UUID
 
+# User Schemas
 class User(BaseModel):
     name: str
     email: str
@@ -11,15 +14,15 @@ class UserResponse(User):
     class Config:
         from_attributes = True
 
-
+# Roadmap Schemas
 class Roadmap(BaseModel):
-    roadmap_json: str | None = None
+    roadmap_json: Optional[Dict[str, Any]] = None
 
 class RoadmapCreate(Roadmap):
     user_provider_id: str
     prompt: str
 class RoadmapResponse(Roadmap):
-    id: int
+    id: UUID
     user_provider_id: str
     created_at: datetime
 
