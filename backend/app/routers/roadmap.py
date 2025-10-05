@@ -1,5 +1,5 @@
 from datetime import datetime
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .. import models, schemas, database
 from ..service.ai import generate_text
@@ -17,6 +17,12 @@ def get_roadmaps(db: Session = Depends(database.get_db)):
     roadmaps = db.query(models.Roadmap).all()
     return roadmaps
 
+@router.get("/get/{roadmap_id}", response_model=schemas.RoadmapResponse)
+def get_roadmap(roadmap_id: int, db: Session = Depends(database.get_db)):
+    roadmap = db.query(models.Roadmap).filter(models.Roadmap.id == roadmap_id).first()
+    if not roadmap:
+        raise HTTPException(status_code=404, detail="Roadmap not found")
+    return roadmap
 
 @router.post("/generate", response_model=schemas.RoadmapResponse)
 async def generate_text_route(
