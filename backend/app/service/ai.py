@@ -1,35 +1,38 @@
 import json
+import re
+from fastapi import HTTPException
 from google import genai
 from ..config import settings
-from pydantic import ValidationError
-from fastapi import HTTPException
 from ..prompt import SYSTEM_PROMPT
-from ..schemas import RoadmapResponse
 
 client = genai.Client(api_key=settings.GOOGLE_API_KEY)
-
 MAX_RETRIES = 2
 
 async def generate_text(user_input: str):
-    prompt = f"""
-    System: {SYSTEM_PROMPT}
-    User: {user_input}
-    """
+    prompt = (
+        f"System: {SYSTEM_PROMPT}\n"
+        f"User: {user_input}\n"
+    )
+
     for attempt in range(MAX_RETRIES):
         try:
             response = client.models.generate_content(
                 model="gemini-2.5-flash",
-                contents=prompt,
+                contents=prompt
             )
-            text = response.text
+            text = (response.text or "").strip()
             if not text:
                 raise HTTPException(status_code=500, detail="AI returned empty response")
-            data = json.loads(text)
-            RoadmapResponse.parse_obj(data)
+
+            text = re.sub(r"^```json\s*|```$", "", text, flags=re.MULTILINE).strip()
+            try:
+                data = json.loads(text)
+            except json.JSONDecodeError:
+                raise HTTPException(status_code=500, detail=f"AI returned invalid JSON: {text}")
+
             return data
-        except (json.JSONDecodeError, ValidationError):
-            if attempt == MAX_RETRIES - 1:
-                raise HTTPException(status_code=500, detail="AI returned invalid roadmap JSON")
-            continue
+
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"AI request failed: {e}")
+            if attempt == MAX_RETRIES - 1:
+                raise HTTPException(status_code=500, detail=f"AI request failed: {e}")
+            continue

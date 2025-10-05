@@ -28,6 +28,7 @@ async def generate_text_route(
     db_roadmap = models.Roadmap(
         roadmap_json=result,
         user_provider_id=request.user_provider_id,
+        created_at=datetime.utcnow()
     )
     db.add(db_roadmap)
     db.commit()

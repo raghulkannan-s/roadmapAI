@@ -21,10 +21,12 @@ class Roadmap(BaseModel):
 class RoadmapCreate(Roadmap):
     user_provider_id: str
     prompt: str
-class RoadmapResponse(Roadmap):
+
+class RoadmapResponse(BaseModel):
     id: UUID
     user_provider_id: str
     created_at: datetime
+    roadmap_json: Dict[str, Any]
 
     class Config:
         from_attributes = True

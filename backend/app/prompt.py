@@ -28,14 +28,14 @@ RULES:
 
 4. **Output Schema** (must always match exactly):
 {
-  "meta": {
+  "roadmap_json": {
+    "meta": {
     "time": "string (total estimated time, e.g., '90 days')",
     "ai_advice": "string (general advice for approaching the goal)",
     "assumptions": ["list of assumptions made while planning"],
     "risks": ["list of possible risks or blockers"],
     "references": ["list of recommended docs or resources"]
-  },
-  "roadmap_json": {
+    },
     "goal": "string (user’s goal reformulated clearly)",
     "estimated_duration": "string (realistic duration, e.g., '2 weeks', '3 months')",
     "duration_reasoning": "string (why this duration is chosen)",
