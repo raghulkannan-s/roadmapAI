@@ -5,9 +5,10 @@ import { toast } from "react-hot-toast";
 import { generate_roadmap } from '@/services/api';
 
 export default function RoadmapForm() {
-  const [goal, setGoal] = useState('Web Development');
-  const [description, setDescription] = useState('MERN stack with React, Node.js, Express, MongoDB');
-  const [time, setTime] = useState('3 months');
+
+  const [goal, setGoal] = useState('');
+  const [description, setDescription] = useState('');
+  const [time, setTime] = useState('');
   const [loading, setLoading] = useState(false);
 
 

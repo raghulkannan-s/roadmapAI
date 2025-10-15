@@ -1,7 +1,10 @@
 
-
+import useAuthStore from "@/store/auth";
 
 const Header = () => {
+
+  const { clearUser } = useAuthStore();
+
   return (
     <div>
         <header className="bg-white border-b border-slate-200">
@@ -14,6 +17,7 @@ const Header = () => {
             <div className="relative">
               <button className="p-2 cursor-pointer text-slate-500 hover:text-slate-700" onClick={() => {
                 localStorage.removeItem("google_id");
+                clearUser();
                 window.location.href = "/";
               }}>
                 Log out

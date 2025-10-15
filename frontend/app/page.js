@@ -1,20 +1,18 @@
 "use client"
 
-import useAuthStore from "@/store/auth"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useEffect } from "react"
 export default function LandingPage() {
 
-  const { user } = useAuthStore()
   const router = useRouter()
 
   useEffect(() => {
-  if (user) {
+  if (localStorage.getItem("google_id")) {
     router.push("/dashboard")
   }
-  },[user, router])
+  },[])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-emerald-950 to-slate-900 text-white p-6">
