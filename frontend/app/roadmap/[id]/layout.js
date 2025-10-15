@@ -8,7 +8,7 @@ export const metadata = {
 export default function RoadmapLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50 min-h-screen p-6">
+      <body className="antialiased">
         {children}
       </body>
     </html>

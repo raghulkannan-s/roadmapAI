@@ -32,9 +32,14 @@ const get_my_roadmaps = async () => {
   return response.data;
 };
 
+const get_roadmap_by_id = async (id) => {
+  const response = await api.get(`/roadmap/get/${id}`);
+  return response.data;
+};
+
 const generate_roadmap = async (prompt) => {
   const response = await api.post("/roadmap/generate", { prompt });
   return response.data;
 };
 
-export { get_all_roadmaps, get_my_roadmaps, generate_roadmap };
+export { get_all_roadmaps, get_my_roadmaps, generate_roadmap, get_roadmap_by_id };
