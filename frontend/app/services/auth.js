@@ -46,7 +46,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async jwt({ token, account }) {
-      // Add provider_id to JWT token
       if (account?.providerAccountId) {
         token.provider_id = account.providerAccountId;
       }
@@ -54,7 +53,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      // Add provider_id to session so you can access it client-side
       if (token.provider_id) {
         session.user.provider_id = token.provider_id;
       }
