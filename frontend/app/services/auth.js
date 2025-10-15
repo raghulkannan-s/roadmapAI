@@ -13,17 +13,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account.provider === "google") {
         try {
           const userData = {
             name: user.name,
             email: user.email,
             image: user.image,
-            provider_id: user.id,
+            provider_id: account.providerAccountId,
           };
 
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/signup`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -34,6 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!response.ok) {
             console.error("Failed to save user to backend:", await response.text());
           }
+          console.log("User data sent to backend:", userData);
           console.log("User successfully saved to backend");
           return true;
         } catch (error) {
@@ -43,9 +44,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
+
+    async jwt({ token, account }) {
+      // Add provider_id to JWT token
+      if (account?.providerAccountId) {
+        token.provider_id = account.providerAccountId;
+      }
+      return token;
+    },
+
     async session({ session, token }) {
+      // Add provider_id to session so you can access it client-side
+      if (token.provider_id) {
+        session.user.provider_id = token.provider_id;
+      }
       return session;
     },
+
     async redirect({ url, baseUrl }) {
       return `${baseUrl}/dashboard`;
     },
