@@ -240,24 +240,22 @@ export default function RoadmapTodo({ params }) {
           </section>
         )}
           <div className="bg-white/80 dark:bg-[#14151a]/80 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-lg transition-all">
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-    {/* Progress Text Section */}
-    <div className="flex flex-col justify-center space-y-1">
-      <span className="text-sm text-gray-500 dark:text-gray-400 tracking-wide uppercase">Overall Progress</span>
-      <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">{overallProgress}%</span>
-      <span className="text-sm text-gray-500 dark:text-gray-400">{totalCompleted}/{totalTasksCount} tasks completed</span>
-    </div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-col justify-center space-y-1">
+            <span className="text-sm text-gray-500 dark:text-gray-400 tracking-wide uppercase">Overall Progress</span>
+            <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">{overallProgress}%</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{totalCompleted}/{totalTasksCount} tasks completed</span>
+          </div>
 
-    {/* Progress Bar Section */}
-    <div className="w-full sm:w-2/3">
-      <div className="relative w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 overflow-hidden">
-        <div
-          className="absolute left-0 top-0 h-full bg-emerald-500 transition-all duration-500 ease-out"
-          style={{ width: `${overallProgress}%` }}
-        ></div>
-        <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow-sm">
-          {overallProgress}%
-        </div>
+        <div className="w-full sm:w-2/3">
+          <div className="relative w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 overflow-hidden">
+            <div
+              className="absolute left-0 top-0 h-full bg-emerald-500 transition-all duration-500 ease-out"
+              style={{ width: `${overallProgress}%` }}
+            ></div>
+            <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow-sm">
+              {overallProgress}%
+            </div>
       </div>
     </div>
   </div>
