@@ -7,10 +7,8 @@ export const metadata = {
 
 export default function RoadmapLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+      <div className="antialiased">
         {children}
-      </body>
-    </html>
+      </div>
   );
 }
