@@ -3,7 +3,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from ..config import settings
 
-GOOGLE_CLIENT_ID = settings.GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_ID = settings.GOOGLE_API_KEY
 
 def verify_google_token(token: str):
     try:

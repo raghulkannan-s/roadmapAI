@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from .config import settings
 
-
 DB_URL = settings.DB_URI
 
 engine = create_engine(DB_URL, pool_pre_ping=True)
@@ -16,3 +15,5 @@ def get_db():
         yield db
     finally:
         db.close()
+
+from app import models

@@ -4,6 +4,7 @@ class Settings(BaseSettings):
     DB_URI: str
     GOOGLE_API_KEY: str
     FRONTEND_URL: str
+
     model_config = SettingsConfigDict(env_file=".env")
 
 

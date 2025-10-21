@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from .. import models, schemas, database
+import logging
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -17,7 +19,7 @@ def create_user(user: schemas.User, db: Session = Depends(database.get_db)):
     user_exists = db.query(models.User).filter(models.User.email == user.email).first()
 
     if user_exists:
-        print(f"User {user.name} already exists:")
+        logger.info(f"User logged in: {user.email} \n Provider ID: {user.provider_id} \n limit: {user_exists.limit}")
         return user_exists
 
     db_user = models.User(**user.dict())
