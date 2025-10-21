@@ -1,49 +1,97 @@
-
-
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { toast } from "react-hot-toast";
 import { generate_roadmap } from '@/services/api';
+import { useRouter } from 'next/navigation';
+import useAuthStore from '@/store/auth';
 
 export default function RoadmapForm() {
 
+  const router = useRouter();
+  const { setLimit, user } = useAuthStore();
   const [goal, setGoal] = useState('');
   const [description, setDescription] = useState('');
   const [time, setTime] = useState('');
   const [loading, setLoading] = useState(false);
+  const toastIdRef = useRef(null);
 
+  const funnyMessages = [
+    "🤖 Teaching AI the art of procrastination...",
+    "🧠 Brain cells are having a meeting...",
+    "🔮 Consulting the crystal ball of knowledge...",
+    "🐸 Asking wise frogs for career advice...",
+    "🎯 Throwing darts at a board of skills...",
+    "🦄 Summoning unicorns of productivity...",
+    "🍕 Bribing pizza gods for inspiration...",
+    "🎪 Training monkeys to write your roadmap...",
+    "🚀 Launching rockets to Planet Success...",
+    "🎭 Hiring Shakespeare to write your journey...",
+    "🦸 Assembling a team of procrastination superheroes...",
+    "🎲 Rolling dice to determine your fate...",
+    "🧙‍♂️ Mixing potions of motivation and caffeine..."
+  ];
 
   const handleGenerate = async () => {
 
-    const prompt = `${description}. The goal is to ${goal} in ${time}. Provide a detailed roadmap with milestones and technologies to learn.`;
+
+    if (!goal.trim() || !description.trim() || !time.trim()) {
+      toast.error("Please fill all required fields!");
+      return;
+    }
+
+    if (user.limit <= 0) {
+      toast.error("You have reached your generation limit!");
+      return;
+    }
+
+
+    const prompt = `Goal: ${goal}
+    Timeframe: ${time}
+    Description: ${description}
+    `;
     console.log("Generated Prompt:", prompt);
 
-    if (!goal || !description || !time) {
-      throw new Error('Please fill all required fields');
-    }
+    const getRandomMessage = () => funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+    const refreshLoadingToast = () => {
+      if (toastIdRef.current) {
+        toast.dismiss(toastIdRef.current);
+      }
+      toastIdRef.current = toast.loading(getRandomMessage());
+    };
 
     setLoading(true);
+    refreshLoadingToast();
+    const messageInterval = setInterval(refreshLoadingToast, 4000);
 
     try {
-
       const response = await generate_roadmap(prompt);
-      console.log('Roadmap generated successfully:', response);
-      toast.success('Roadmap generated successfully!');
 
-
-      if (response.ok) {
-        setGoal('');
-        setDescription('');
-        setTime('');
-      } else {
-        setLoading(false);
-        throw new Error('Error response from server: ' + (data.error || 'Unknown error') );
+      if (!response?.id) {
+        const errorMessage = response?.error || 'Model is overloaded. Please try again later.';
+        toast.error(errorMessage);
+        return;
       }
-    } catch (err) {
-      setLoading(false);
-      throw new Error('Failed to generate roadmap');
-    }
 
-    setLoading(false);
+      setLimit(response.limit);
+      toast.success('Roadmap generated successfully! \n You have ' + response.limit + ' generations left.');
+
+
+      setTimeout(() => {
+        toast.success("Redirecting to your Roadmap...")
+      }, 1500);
+      setTimeout(() => {
+        router.push("/roadmap/" + response.id);
+      }, 3000);
+    } catch (err) {
+      console.error('Generation error:', err);
+      toast.error(err.message || 'Failed to generate roadmap. Please try again.');
+    } finally {
+      clearInterval(messageInterval);
+      if (toastIdRef.current) {
+        toast.dismiss(toastIdRef.current);
+        toastIdRef.current = null;
+      }
+      setLoading(false);
+    }
   };
 
   return (

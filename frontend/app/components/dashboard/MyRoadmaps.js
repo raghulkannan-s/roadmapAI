@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import RoadmapCard from "@/components/UI/RoadmapCard";
 import { get_my_roadmaps } from "@/services/api";
+import SkeletonRoadmaps from "../UI/skeletonCard";
+import Error from "../UI/error";
 
 const MyRoadmaps = () => {
   const [myRoadmaps, setMyRoadmaps] = useState([]);
@@ -24,8 +26,9 @@ const MyRoadmaps = () => {
     fetchMyRoadmaps();
   }, []);
 
-  if (loading) return <p className="text-slate-600">Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <SkeletonRoadmaps />;
+
+  if (error) return <Error message={error} />;
 
   return (
     <div>

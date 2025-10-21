@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import RoadmapCard from "@/components/UI/RoadmapCard";
 import { get_all_roadmaps } from "@/services/api";
+import SkeletonRoadmaps from "../UI/skeletonCard";
 
 const DashboardContent = () => {
   const [roadmaps, setRoadmaps] = useState([]);
@@ -14,8 +15,10 @@ const DashboardContent = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="text-slate-600">Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+
+  if (loading) return <SkeletonRoadmaps />;
+
+  if (error) return <Error message={error} />;
 
   return (
     <div>

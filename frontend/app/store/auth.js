@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 const useAuthStore = create(
   persist(
@@ -8,19 +8,37 @@ const useAuthStore = create(
         provider_id: null,
         name: null,
         email: null,
-        image: null
+        image: null,
+        limit: 0,
       },
-      setUser: (user) => set({ user : user }),
-      clearUser: () => set({ user: {
-        provider_id: null,
-        name: null,
-        email: null,
-        image: null
-      } }),
+      setUser: (user) => set({ user }),
+      setLimit: (limit) =>
+        set((state) => ({
+          user: { ...state.user, limit },
+        })),
+      clearUser: () =>
+        set({
+          user: {
+            provider_id: null,
+            name: null,
+            email: null,
+            image: null,
+            limit: 0,
+          },
+        }),
     }),
     {
       name: "auth-storage",
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => {
+        if (typeof window !== "undefined") {
+          return localStorage;
+        }
+        return {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        };
+      }),
     }
   )
 );

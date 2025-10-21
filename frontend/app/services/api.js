@@ -15,9 +15,6 @@ api.interceptors.request.use(async (config) => {
   
   if (session?.user?.provider_id) {
     config.headers.Authorization = `Bearer ${session.user.provider_id}`;
-    console.log('Token set:', config.headers.Authorization);
-  } else {
-    console.log('No token found in session');
   }
   return config;
 });

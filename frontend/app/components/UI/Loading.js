@@ -2,55 +2,34 @@ import Image from "next/image";
 
 export default function Loading({ message = "Loading..." }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-emerald-950 to-slate-900 text-white">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full opacity-10"
-          style={{
-            backgroundImage: `radial-gradient(circle at 15% 15%, rgba(20, 184, 166, 0.6) 0.5%, transparent 6%),
-                            radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.4) 0.5%, transparent 12%)`,
-            backgroundSize: "100% 100%"
-          }}>
-        </div>
-      </div>
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"></div>
 
       <div className="relative z-10 flex flex-col items-center space-y-8">
-        <div className="flex items-center gap-4 animate-pulse">
+        {/* Logo and title */}
+        <div className="flex items-center gap-3">
           <Image
             src="/prop.png"
             alt="Roadmap AI"
-            width={64}
-            height={64}
-            className="rounded-xl"
+            width={48}
+            height={48}
+            className="rounded-lg"
             priority
           />
-          <h1 className="text-4xl font-bold">
-            Roadmap <span className="text-emerald-400">AI</span>
+          <h1 className="text-2xl font-semibold text-white tracking-tight">
+            Roadmap AI
           </h1>
         </div>
 
-        <div className="relative">
-          <div className="w-16 h-16 border-4 border-emerald-200/20 border-t-emerald-400 rounded-full animate-spin"></div>
-          
-          <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-emerald-400 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+        {/* Minimalist spinner */}
+        <div className="relative w-12 h-12">
+          <div className="absolute inset-0 border-2 border-slate-800 rounded-full"></div>
+          <div className="absolute inset-0 border-2 border-transparent border-t-emerald-400 rounded-full animate-spin"></div>
         </div>
 
-        <div className="text-center">
-          <p className="text-xl text-emerald-100/80 mb-2">{message}</p>
-          
-          <div className="flex space-x-1 justify-center">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-          </div>
-        </div>
-
-        <div className="w-64 h-1 bg-emerald-900/50 rounded-full overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full animate-pulse"></div>
-        </div>
-
-        <p className="text-emerald-100/50 text-sm animate-fade-in">
-          Generating your intelligent roadmap...
-        </p>
+        {/* Message */}
+        <p className="text-slate-400 text-sm">{message}</p>
       </div>
     </div>
   );
@@ -60,31 +39,46 @@ export function LoadingSpinner({ size = "md", color = "emerald" }) {
   const sizeClasses = {
     sm: "w-4 h-4 border-2",
     md: "w-8 h-8 border-2",
-    lg: "w-12 h-12 border-4"
+    lg: "w-12 h-12 border-2"
   };
 
   const colorClasses = {
-    emerald: "border-emerald-200/20 border-t-emerald-400",
-    white: "border-white/20 border-t-white",
-    gray: "border-gray-200/20 border-t-gray-400"
+    emerald: "border-slate-800 border-t-emerald-400",
+    white: "border-slate-700 border-t-white",
+    gray: "border-slate-800 border-t-slate-400"
   };
 
   return (
-    <div className={`${sizeClasses[size]} ${colorClasses[color]} rounded-full animate-spin`}></div>
+    <div className="relative" style={{ width: sizeClasses[size].split(' ')[0].replace('w-', '') + 'px', height: sizeClasses[size].split(' ')[1].replace('h-', '') + 'px' }}>
+      <div className={`absolute inset-0 ${sizeClasses[size]} ${colorClasses[color]} rounded-full animate-spin`}></div>
+    </div>
   );
 }
 
 export function LoadingCard() {
   return (
-    <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 animate-pulse">
+    <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-6 animate-pulse">
       <div className="flex justify-between items-center mb-4">
-        <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-        <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+        <div className="h-4 bg-slate-800 rounded w-1/3"></div>
+        <div className="h-3 bg-slate-800 rounded w-1/4"></div>
       </div>
-      <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-      <div className="h-3 bg-gray-200 rounded w-2/3 mb-4"></div>
-      <div className="h-8 bg-emerald-100 rounded w-full"></div>
+      <div className="h-3 bg-slate-800 rounded w-full mb-2"></div>
+      <div className="h-3 bg-slate-800 rounded w-2/3 mb-4"></div>
+      <div className="h-8 bg-slate-800 rounded w-full"></div>
     </div>
   );
 }
 
+export function LoadingOverlay({ message = "Processing..." }) {
+  return (
+    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-slate-900 border border-slate-800 rounded-lg p-8 flex flex-col items-center space-y-4">
+        <div className="relative w-10 h-10">
+          <div className="absolute inset-0 border-2 border-slate-800 rounded-full"></div>
+          <div className="absolute inset-0 border-2 border-transparent border-t-emerald-400 rounded-full animate-spin"></div>
+        </div>
+        <p className="text-slate-300 text-sm">{message}</p>
+      </div>
+    </div>
+  );
+}
