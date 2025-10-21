@@ -13,6 +13,15 @@ def get_users(db: Session = Depends(database.get_db)):
         return []
     return users
 
+@router.get("/{id}", response_model=schemas.UserResponse)
+def get_user(id: str, db: Session = Depends(database.get_db)):
+    provider_id_str = str(id)
+    user = db.query(models.User).filter(models.User.provider_id == provider_id_str).first()
+    if not user:
+        return {"error": "User not found"}
+    logger.info(f"Fetched user: {user.email} \n Provider ID: {user.provider_id} \n limit: {user.limit}")
+    return user
+
 @router.post("/signup", response_model=schemas.UserResponse)
 def create_user(user: schemas.User, db: Session = Depends(database.get_db)):
 
