@@ -51,16 +51,16 @@ Roadmap AI is a web application that generates actionable project roadmaps using
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/roadmap-ai.git
+git clone https://github.com/raghulkannan-s/roadmapAI.git
 cd roadmap-ai/backend
-````
+```
 
 2. Create a virtual environment:
 
 ```bash
-python -m venv fastapi-env
-source fastapi-env/bin/activate # Linux/Mac
-source fastapi-env\Scripts\activate    # Windows
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
 ```
 
 3. Install dependencies:
@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 ```
 DB_URI=postgresql://user:password@localhost:5432/roadmap_db
-GOOGLE_API_KEY=your_google_genie_api_key
+GOOGLE_API_KEY=your_google_api_key
 FRONTEND_URL=http://localhost:3000
 ```
 
@@ -137,7 +137,7 @@ Open [http://localhost:3000](http://localhost:3000) to view in browser.
 
 * `Authorization: Bearer <google_id>`
 
-**POST `/generate` Body:**
+**POST `/roadmap/generate` Body:**
 
 ```json
 {
