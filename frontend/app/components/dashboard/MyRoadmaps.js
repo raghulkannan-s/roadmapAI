@@ -26,23 +26,23 @@ const MyRoadmaps = () => {
     fetchMyRoadmaps();
   }, []);
 
-  if (loading) return <SkeletonRoadmaps />;
+  if (loading) return <SkeletonRoadmaps count={6} />;
 
   if (error) return <Error message={error} />;
 
   return (
-    <div>
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-slate-800">My Roadmaps</h2>
+    <div className="px-3 sm:px-0">
+      <div className="mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-800">My Roadmaps</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
         {myRoadmaps.length > 0 ? (
           myRoadmaps.map((roadmap) => (
             <RoadmapCard key={roadmap.id} roadmap={roadmap} />
           ))
         ) : (
-          <p className="text-black">No roadmaps available</p>
+          <p className="text-black col-span-full text-center py-8">No roadmaps available</p>
         )}
       </div>
     </div>

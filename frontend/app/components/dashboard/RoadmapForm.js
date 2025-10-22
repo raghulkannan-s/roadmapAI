@@ -95,10 +95,10 @@ export default function RoadmapForm() {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-2xl p-6 border border-gray-200">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">Generate New Roadmap</h2>
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Goal Name :</label>
+    <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 border border-gray-200">
+      <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Generate New Roadmap</h2>
+      <div className="mb-3 sm:mb-4">
+        <label className="block text-gray-700 font-medium mb-1 sm:mb-2">Goal Name :</label>
         <input
           type="text"
           className="w-full text-black p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
@@ -108,19 +108,19 @@ export default function RoadmapForm() {
         />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Prompt / Description *</label>
+      <div className="mb-3 sm:mb-4">
+        <label className="block text-gray-700 font-medium mb-1 sm:mb-2">Prompt / Description *</label>
         <textarea
           className="w-full text-black p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
           placeholder="Enter what you want the roadmap to cover... (e.g., technologies, milestones, etc.)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          rows={6}
+          rows={5}
         />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Time Estimate</label>
+      <div className="mb-3 sm:mb-4">
+        <label className="block text-gray-700 font-medium mb-1 sm:mb-2">Time Estimate</label>
         <input
           type="text"
           value={time}
@@ -136,7 +136,7 @@ export default function RoadmapForm() {
           e.preventDefault();
           handleGenerate();
         }}
-        className={`w-full mt-2 px-4 py-2 text-white rounded-md bg-emerald-600 hover:bg-emerald-700 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+        className={`w-full mt-2 px-3 sm:px-4 py-2 text-white rounded-md bg-emerald-600 hover:bg-emerald-700 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
       >
         {loading ? 'Generating...' : 'Generate Roadmap'}
       </button>

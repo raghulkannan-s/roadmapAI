@@ -30,32 +30,32 @@ export default function LandingPage() {
         {/* Content */}
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Header */}
-          <header className="pt-8 px-8">
+          <header className="pt-6 px-4 sm:pt-8 sm:px-8">
             <div className="flex items-center gap-3">
               <Image
                 src="/prop.png"
                 alt="Roadmap AI"
-                width={40}
-                height={40}
-                className="rounded-lg"
+                width={36}
+                height={36}
+                className="rounded-lg sm:w-10 sm:h-10"
                 priority
               />
-              <span className="text-xl font-semibold tracking-tight">Roadmap AI</span>
+              <span className="text-lg sm:text-xl font-semibold tracking-tight">Roadmap AI</span>
             </div>
           </header>
 
           {/* Main content */}
-          <main className="flex-1 flex items-center justify-center px-6">
-            <div className="max-w-4xl w-full">
-              <div className="grid md:grid-cols-2 gap-16 items-center">
+          <main className="flex-1 flex items-center justify-center px-4 py-8 sm:px-6 md:py-12">
+            <div className="w-full max-w-4xl">
+              <div className="grid gap-8 md:gap-16 md:grid-cols-2 items-center">
                 {/* Left side - Marketing copy */}
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
+                <div className="space-y-6 sm:space-y-8">
+                  <div className="space-y-3 sm:space-y-4">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
                       Strategic roadmaps,
                       <span className="text-emerald-400"> powered by AI</span>
                     </h1>
-                    <p className="text-lg text-slate-400 leading-relaxed">
+                    <p className="text-base sm:text-lg text-slate-400 leading-relaxed">
                       Transform complex project planning into clear, actionable roadmaps. 
                       Intelligent insights that adapt to your workflow.
                     </p>
@@ -78,16 +78,16 @@ export default function LandingPage() {
                 </div>
 
                 {/* Right side - Sign in card */}
-                <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-2xl p-8">
-                  <div className="space-y-6">
+                <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-2xl p-6 sm:p-8 mt-4 md:mt-0">
+                  <div className="space-y-5 sm:space-y-6">
                     <div>
-                      <h2 className="text-2xl font-semibold mb-2">Get started</h2>
+                      <h2 className="text-xl sm:text-2xl font-semibold mb-2">Get started</h2>
                       <p className="text-slate-400 text-sm">Sign in to access your workspace</p>
                     </div>
 
                     <button 
                       onClick={() => signIn("google")}
-                      className="w-full bg-white hover:bg-slate-100 text-slate-900 font-medium py-3.5 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-3"
+                      className="w-full bg-white hover:bg-slate-100 text-slate-900 font-medium py-3 sm:py-3.5 px-4 sm:px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-3"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -108,7 +108,7 @@ export default function LandingPage() {
           </main>
 
           {/* Footer */}
-          <footer className="py-8 px-8 text-center text-sm text-slate-500">
+          <footer className="py-6 sm:py-8 px-4 sm:px-8 text-center text-xs sm:text-sm text-slate-500">
             © 2025 Roadmap AI. Built for teams that ship.
           </footer>
         </div>
